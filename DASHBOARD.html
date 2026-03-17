@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analog Voice Denoiser | Professional Dashboard</title>
+    <title>Analog Voice Denoiser | Profesyonel Kontrol Paneli</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
@@ -193,43 +193,43 @@
             <div>
                 <div class="system-status">
                     <div class="status-indicator"></div>
-                    Signal Processor Operational
+                    Sinyal İşlemci Aktif
                 </div>
                 <h1>ANALOG CORE v1.0</h1>
             </div>
             <div style="text-align: right">
-                <div class="metric-label">Project Status</div>
-                <div class="metric-value" style="font-size: 1.25rem; color: var(--primary)">ACTIVE RESEARCH</div>
+                <div class="metric-label">Proje Durumu</div>
+                <div class="metric-value" style="font-size: 1.25rem; color: var(--primary)">AKTİF ARAŞTIRMA</div>
             </div>
         </div>
 
         <div class="main-content">
             <div class="viz-container">
-                <div class="metric-label">Live Spectral Feedback</div>
+                <div class="metric-label">Canlı Spektral Geribildirim</div>
                 <div class="spectrum-analyzer" id="analyzer">
-                    <!-- Bars populated by JavaScript -->
+                    <!-- JavaScript tarafından doldurulacak -->
                 </div>
             </div>
             <div class="metrics-panel">
                 <div class="metric-card">
-                    <div class="metric-label">SNR Enhancement</div>
+                    <div class="metric-label">SNR İyileştirmesi</div>
                     <div class="metric-value" id="snr-metric">+44.2 dB</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-label">Atmospheric Density</div>
+                    <div class="metric-label">Atmosferik Yoğunluk</div>
                     <div class="metric-value">0.124 σ</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-label">Latency Profile</div>
+                    <div class="metric-label">Gecikme Profili</div>
                     <div class="metric-value" style="color: #4ade80">0.8 ms</div>
                 </div>
             </div>
         </div>
 
         <div class="action-bar">
-            <button class="button button-primary">Initiate Denoising</button>
-            <button class="button button-outline">Advanced Analytics</button>
-            <button class="button button-outline">Sync Remote Node</button>
+            <button class="button button-primary">Gürültü Baskılamayı Başlat</button>
+            <button class="button button-outline">Gelişmiş Analitik</button>
+            <button class="button button-outline">Uzak Düğümü Senkronize Et</button>
         </div>
     </div>
 
@@ -249,7 +249,6 @@
             bars.forEach((bar, index) => {
                 const targetHeight = Math.random() * 85 + 5;
                 bar.style.height = `${targetHeight}%`;
-                // Add some color variance
                 const opacity = 0.4 + (targetHeight / 100) * 0.6;
                 bar.style.opacity = opacity;
             });
