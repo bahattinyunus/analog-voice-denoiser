@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Voice Denoiser | Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap');
+
+        :root {
+            --primary: #00f2ff;
+            --bg: #0a0b10;
+            --card: rgba(20, 22, 30, 0.7);
+            --border: rgba(0, 242, 255, 0.2);
+            --text: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #1a1b26 0%, #0a0b10 100%);
+        }
+
+        .dashboard {
+            width: 90%;
+            max-width: 1000px;
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 242, 255, 0.1);
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.7); }
+            70% { transform: scale(1.1); opacity: 0.5; box-shadow: 0 0 0 10px rgba(0, 242, 255, 0); }
+            100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .visualizer {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            height: 300px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            gap: 4px;
+        }
+
+        .bar {
+            flex: 1;
+            background: var(--primary);
+            min-height: 10px;
+            transition: height 0.1s ease;
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+            border-radius: 2px 2px 0 0;
+        }
+
+        .stats {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 16px;
+        }
+
+        .label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .controls {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: var(--bg);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
+
+        .btn.active {
+            background: var(--primary);
+            color: var(--bg);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <div>
+                <div class="status">
+                    <div class="status-dot"></div>
+                    System Active
+                </div>
+                <h1>ANALOG DENOISER</h1>
+            </div>
+            <div style="text-align: right">
+                <div class="label">TRL LEVEL</div>
+                <div class="value">VII</div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="visualizer" id="visualizer">
+                <!-- Bars added by JS -->
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="label">SNR RATIO</div>
+                    <div class="value" id="snr-val">42.4 dB</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">NOISE REDUCTION</div>
+                    <div class="value" id="nr-val">85%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">CPU LOAD</div>
+                    <div class="value">12.4%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn active" onclick="toggleDenoise(this)">DENOISING ACTIVE</button>
+            <button class="btn" onclick="startCapture()">START CAPTURE</button>
+        </div>
+    </div>
+
+    <script>
+        const visualizer = document.getElementById('visualizer');
+        const numBars = 40;
+        const bars = [];
+
+        for (let i = 0; i < numBars; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            visualizer.appendChild(bar);
+            bars.push(bar);
+        }
+
+        function animate() {
+            bars.forEach(bar => {
+                const height = Math.random() * 80 + 10;
+                bar.style.height = `${height}%`;
+                bar.style.opacity = (height / 100) + 0.2;
+            });
+
+            document.getElementById('snr-val').innerText = (40 + Math.random() * 5).toFixed(1) + ' dB';
+            
+            requestAnimationFrame(() => {
+                setTimeout(animate, 100);
+            });
+        }
+
+        function toggleDenoise(btn) {
+            btn.classList.toggle('active');
+            btn.innerText = btn.classList.contains('active') ? 'DENOISING ACTIVE' : 'BYPASS MODE';
+        }
+
+        function startCapture() {
+            alert('Sistem dinlemede kanka. ANALOG-7 sinyali optimize ediliyor.');
+        }
+
+        animate();
+    </script>
+</body>
+</html>
