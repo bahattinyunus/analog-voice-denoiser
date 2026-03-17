@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Audio outputs
+output_cleaned.wav
+cleaned_output.wav
+
+# Python environment
+venv/
+env/
+.env
+
+# Analysis assets
+assets/*.png
+!assets/signal_analysis.png
